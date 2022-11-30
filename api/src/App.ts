@@ -2,8 +2,6 @@ import express from 'express';
 import * as dotenv from "dotenv";
 import cors from "cors";
 import helmet from "helmet";
-import internal from 'stream';
-import mongoose from 'mongoose';
 
 
 dotenv.config();
@@ -18,9 +16,9 @@ if (!process.env.PORT) {
 
 const PORT = parseInt(process.env.PORT as string);
 const app = express();
-const SubmissionModel = require('./models/Submission').SubmissionModel;
-const db = require('./config/DbSetup');
-const submissionRouter = require('./routes/submissions');
+import { SubmissionModel } from './models/Submission';
+import { db } from './config/DbSetup';
+import { router } from './routes/submissions';
 /**
  *  App Configuration
  */
@@ -40,7 +38,7 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-app.use('/submissions', submissionRouter);
+app.use('/submissions', router);
 
 app.listen(PORT, () => {
     return console.log(`Express is listening at http://localhost:${PORT}`);

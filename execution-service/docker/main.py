@@ -21,10 +21,10 @@ if __name__ == '__main__':
    db = get_database()
    id = str(sys.argv[1])
    subm = db['submissions'].find_one({'_id':ObjectId(id)})
-   print(f"running code: {subm['code']}")
-   print("---output---")
+   # print(f"running code: {subm['code']}")
+   # print("---output---")
    write_code_to_file(subm['code'])
    res = subprocess.run(['node', './src/main.js'], stdout=subprocess.PIPE)
-   print(res.stdout)
+   print(res.stdout.decode('utf-8'))
 
     

@@ -1,7 +1,7 @@
 import amqp from "amqplib";
 import { SubmissionModel } from "../models/Submission";
 import { Executor } from "./Executor";
-const db = require('../config/DbSetup');
+import { db } from '../config/DbSetup';
 const PORT = 5672
 const executor = new Executor()
 
@@ -14,10 +14,7 @@ async function connect() {
         const channel = await conn.createChannel();
         const res = await channel.assertQueue(queue);
         console.log(" [*] Waiting for messages in %s.", queue);
-        channel.consume(queue, consumeJob
-            // , {
-            // noAck: true}
-            );
+        channel.consume(queue, consumeJob, { noAck: true });
         
     } catch (e: any) {
         console.error(e);

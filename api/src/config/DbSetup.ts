@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-module.exports = {
+export const db = {
     connect: function () {
         mongoose.connect(
             'mongodb://localhost:27017/code-exec-db'
@@ -10,7 +10,7 @@ module.exports = {
             console.log('nongodb connection failed: ' + err);
         });
     }
-}
+};
 
 
 

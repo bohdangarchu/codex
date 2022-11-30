@@ -1,6 +1,9 @@
 import express from 'express';
-const router = express.Router();
+import { Publisher } from '../services/Publisher';
+export const router = express.Router();
 const SubmissionModel = require('../models/Submission').SubmissionModel;
+const publisher = new Publisher();
+publisher.init();
 
 
 router.get('/:id', async (req, res) => {
@@ -10,13 +13,14 @@ router.get('/:id', async (req, res) => {
     res.send(JSON.stringify(sub));
 });
 
-router.post('', (req, res) => {
+router.post('', async (req, res) => {
     console.log(`request body: ${JSON.stringify(req.body)}`);
     validateRequest(req, res);
     const subm = new SubmissionModel(req.body);
     subm.save()
         .then((s: any) => { 
             console.log(`submission ${s} saved`);
+            publisher.processSubmission(s._id);
             res.send({
                 submissionId: s._id
             });
@@ -34,7 +38,7 @@ router.post('', (req, res) => {
         });
 })
 
-function validateRequest (req, res) {
+function validateRequest (req: any, res: any) {
     const { code, langId } = req.body;
     if (!code || !langId) {
         res.status(400).send({
@@ -43,40 +47,5 @@ function validateRequest (req, res) {
     }
 }
 
-module.exports = router;
-
-// app.get('/submissions/:id', async (req, res) => {
-//     const id: string = req.params.id;
-//     const sub = await SubmissionModel.find({'_id': id});
-//     console.log(`found sub ${sub}`);
-//     res.send(JSON.stringify(sub));
-// });
-
-// app.post('/submissions', (req, res) => {
-//     console.log(`request body: ${JSON.stringify(req.body)}`);
-//     const { code, langId } = req.body;
-//     if (!code || !langId) {
-//         res.status(400).send({
-//             message: "code or langId is missing!"
-//         });
-//     }
-//     const subm = new SubmissionModel(req.body);
-//     subm.save()
-//         .then((s: any) => { 
-//             console.log(`submission ${s} saved`);
-//             res.send({
-//                 submissionId: s._id
-//             });
-//         })
-//         .catch((err: any) => { 
-//             if (err.name === "ValidationError") {
-//                 let errors = {};
-//                 Object.keys(err.errors).forEach((key) => {
-//                     errors[key] = err.errors[key].message;
-//                 });
-
-//                 return res.status(400).send(errors);
-//             }
-//             res.status(500).send("Something went wrong!");
-//         });
-// });
+// export const router = router;
+// module.exports = router;
