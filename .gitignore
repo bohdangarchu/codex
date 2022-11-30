@@ -1,0 +1,5 @@
+api/.env
+api/node_modules
+api/dist
+execution-service/node_modules
+execution-service/docker/.venv
