@@ -1,4 +1,4 @@
-import { Executor } from './Executor'
+import { Executor } from './services/Executor'
 
 const userCode = `
 var n = 5

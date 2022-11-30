@@ -9,6 +9,6 @@ interface Language {
 
 // load languages
 const rawData = fs.readFileSync(
-    path.resolve(__dirname, '../../static/languages.json'))
+    path.resolve(__dirname, '../../../static/languages.json'))
     .toString();
 export const LanguageList: Language[] = JSON.parse(rawData)['languageList'];
