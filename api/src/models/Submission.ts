@@ -12,6 +12,12 @@ const SubmissionSchema = new mongoose.Schema({
         validate: (value: number) => {
             return validateLangId(value);
         }
+    },
+    output: {
+        type: {
+            stdout: String,
+            stderr: String
+        }
     }
 });
 
