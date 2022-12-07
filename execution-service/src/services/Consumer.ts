@@ -5,8 +5,6 @@ import { db } from '../config/DbSetup';
 const PORT = 5672
 const executor = new Executor()
 
-db.connect();
-
 async function connect() {
     const queue = 'jobs';
     try {
@@ -25,12 +23,15 @@ async function consumeJob(msg: any) {
     console.log(" [x] Received %s", msg.content.toString());
     const jobId = msg.content.toString();
     const output = await executor.runCode(jobId);
+    output['stdout'] = output['stdout'].trimEnd('\n')
     console.log(output);
     const filter = { '_id': jobId };
     const update = { output: output };
     let subm = await SubmissionModel.findOneAndUpdate(filter, update, { new: true });
     console.log(subm);
 }
+
+db.connect();
 
 connect();
 
