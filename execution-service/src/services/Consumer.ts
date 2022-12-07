@@ -22,7 +22,7 @@ async function connect() {
 async function consumeJob(msg: any) {
     console.log(" [x] Received %s", msg.content.toString());
     const jobId = msg.content.toString();
-    const output = await executor.runCode(jobId);
+    const output = await executor.runJsCode(jobId);
     output['stdout'] = output['stdout'].trimEnd('\n')
     console.log(output);
     const filter = { '_id': jobId };
