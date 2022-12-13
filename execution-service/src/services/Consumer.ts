@@ -5,6 +5,11 @@ import { db } from '../config/DbSetup';
 const PORT = 5672
 const executor = new Executor()
 
+interface QueueSubmission {
+    submId: string,
+    langId: number
+}
+
 async function connect() {
     const queue = 'jobs';
     try {
@@ -21,14 +26,28 @@ async function connect() {
 
 async function consumeJob(msg: any) {
     console.log(" [x] Received %s", msg.content.toString());
-    const jobId = msg.content.toString();
-    const output = await executor.runJsCode(jobId);
+    const queueSubmission = JSON.parse(msg.content.toString());
+    const output = await runCode(queueSubmission);
     output['stdout'] = output['stdout'].trimEnd('\n')
     console.log(output);
-    const filter = { '_id': jobId };
+    const filter = { '_id': queueSubmission.submId };
     const update = { output: output };
     let subm = await SubmissionModel.findOneAndUpdate(filter, update, { new: true });
     console.log(subm);
+}
+
+async function runCode(qs: QueueSubmission): Promise<any> {
+    switch (qs.langId) {
+        case 1:
+            return await executor.runJsCode(qs.submId);
+        case 2:
+            return await executor.runPythonCode(qs.submId);
+        default:
+            return {
+                stdout: "",
+                stderr: "Languge not found!"
+            }
+    }
 }
 
 db.connect();

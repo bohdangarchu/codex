@@ -1,9 +1,13 @@
 import amqp from "amqplib";
 const PORT = 5672
 const QUEUE = 'jobs'
-
+interface QueueSubmission {
+    submId: string,
+    langId: number
+} 
 export class Publisher {
     private channel: amqp.Channel
+
     async init() {
         try {
             const conn = await amqp.connect(`amqp://localhost:${PORT}`);
@@ -14,9 +18,14 @@ export class Publisher {
         }
     }
 
-    processSubmission(jobId: string) {
-        this.channel.sendToQueue('jobs', Buffer.from(jobId));
-        console.log(`Job ${jobId} sent successfully `);
+    // processSubmission(jobId: string) {
+    //     this.channel.sendToQueue('jobs', Buffer.from(jobId));
+    //     console.log(`Job ${jobId} sent successfully `);
+    // }
+
+    processSubmission(subm: QueueSubmission) {
+        this.channel.sendToQueue('jobs', Buffer.from(JSON.stringify(subm)));
+        console.log(`Job ${subm} sent successfully `);
     }
 }
 

@@ -20,7 +20,10 @@ router.post('', async (req, res) => {
     subm.save()
         .then((s: any) => { 
             console.log(`submission ${s} saved`);
-            publisher.processSubmission(s._id);
+            publisher.processSubmission({
+                submId: s._id,
+                langId: s.langId
+            });
             res.send({
                 submissionId: s._id
             });
