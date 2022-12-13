@@ -18,11 +18,6 @@ export class Publisher {
         }
     }
 
-    // processSubmission(jobId: string) {
-    //     this.channel.sendToQueue('jobs', Buffer.from(jobId));
-    //     console.log(`Job ${jobId} sent successfully `);
-    // }
-
     processSubmission(subm: QueueSubmission) {
         this.channel.sendToQueue('jobs', Buffer.from(JSON.stringify(subm)));
         console.log(`Job ${subm} sent successfully `);

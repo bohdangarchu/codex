@@ -50,5 +50,3 @@ function validateRequest (req: any, res: any) {
     }
 }
 
-// export const router = router;
-// module.exports = router;
