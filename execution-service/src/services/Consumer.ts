@@ -28,7 +28,8 @@ async function consumeJob(msg: any) {
     console.log(" [x] Received %s", msg.content.toString());
     const queueSubmission = JSON.parse(msg.content.toString());
     const output = await runCode(queueSubmission);
-    output['stdout'] = output['stdout'].trimEnd('\n')
+    output['stdout'] = output['stdout'].trimEnd('\n');
+    output['stderr'] = output['stderr'].trimEnd('\n');
     const filter = { '_id': queueSubmission.submId };
     const update = { output: output };
     let subm = await SubmissionModel.findOneAndUpdate(filter, update, { new: true });

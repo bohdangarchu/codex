@@ -9,9 +9,7 @@ const SubmissionSchema = new mongoose.Schema({
     langId: {
         type: Number,
         required: true,
-        validate: (value: number) => {
-            return validateLangId(value);
-        }
+        validate: validateLangId
     },
     output: {
         type: {
