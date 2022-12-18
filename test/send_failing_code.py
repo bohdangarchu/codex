@@ -33,4 +33,4 @@ def send_failing_python_code():
 
 
 if __name__ == '__main__':
-    send_failing_js_code()
+    send_failing_python_code()

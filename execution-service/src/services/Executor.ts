@@ -10,8 +10,8 @@ export class Executor {
         return await exec(script);
     }
 
-    async runPythonCode(codeId: string) : Promise<any> {
-        const script = `docker run --rm python-code-runner ${codeId}`
+    async runPythonCode(code: string) : Promise<any> {
+        const script = `docker run --rm python-code-runner "${code}"`
         return await exec(script);
     }
 

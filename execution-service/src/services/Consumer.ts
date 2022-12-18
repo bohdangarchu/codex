@@ -45,7 +45,7 @@ async function runCode(qs: QueueSubmission): Promise<any> {
         case 1:
             return await executor.runJsCode(code);
         case 2:
-            return await executor.runPythonCode(qs.submId);
+            return await executor.runPythonCode(code);
         default:
             return {
                 stdout: "",

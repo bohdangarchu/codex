@@ -8,8 +8,8 @@ publisher.init();
 
 router.get('/:id', async (req, res) => {
     const id: string = req.params.id;
+    console.log(`GET request for id ${id}`);
     const sub = await SubmissionModel.find({'_id': id});
-    console.log(`found sub ${sub}`);
     res.send(JSON.stringify(sub));
 });
 
