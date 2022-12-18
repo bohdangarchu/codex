@@ -16,7 +16,7 @@ def write_code_to_file(code):
 
 if __name__ == '__main__':
    if len(sys.argv) < 2:
-      print('no id was given')
+      print('no codeId was given')
       exit()
    db = get_database()
    id = str(sys.argv[1])
@@ -24,7 +24,18 @@ if __name__ == '__main__':
    # print(f"running code: {subm['code']}")
    # print("---output---")
    write_code_to_file(subm['code'])
-   res = subprocess.run(['node', './src/main.js'], stdout=subprocess.PIPE)
-   print(res.stdout.decode('utf-8'))
+   cmd = ['node', './src/main.js']
+   timeout = 10
+   try:
+      res = subprocess.run(
+         cmd, 
+         stdout=subprocess.PIPE, 
+         stderr=subprocess.PIPE,
+         timeout=timeout
+      )
+      print(res.stdout.decode('utf-8'))
+   except subprocess.TimeoutExpired:
+      print(f'Timeout for {cmd} ({timeout}s)')
+
 
     

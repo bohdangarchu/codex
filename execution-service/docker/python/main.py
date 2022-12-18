@@ -24,7 +24,17 @@ if __name__ == '__main__':
    # print(f"running code: {subm['code']}")
    # print("---output---")
    write_code_to_file(subm['code'])
-   res = subprocess.run(['python', './src/main.py'], stdout=subprocess.PIPE)
-   print(res.stdout.decode('utf-8'))
+   cmd = ['python', './src/main.py']
+   timeout = 10
+   try:
+      res = subprocess.run(
+         cmd, 
+         stdout=subprocess.PIPE, 
+         stderr=subprocess.PIPE,
+         timeout=timeout
+      )
+      print(res.stdout.decode('utf-8'))
+   except subprocess.TimeoutExpired:
+      print(f'Timeout for {cmd} ({timeout}s)')
 
     
