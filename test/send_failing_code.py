@@ -12,7 +12,7 @@ def send_failing_js_code():
     data = response.json()
     print(data)
     id = data['submissionId']
-    time.sleep(5)
+    time.sleep(6)
     output = requests.get(f'{URL}/{id}')
     stderr = output.json()[0]['output']['stderr']
     print(stderr)
@@ -33,4 +33,4 @@ def send_failing_python_code():
 
 
 if __name__ == '__main__':
-    send_failing_python_code()
+    send_failing_js_code()

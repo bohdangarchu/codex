@@ -29,17 +29,21 @@ async function consumeJob(msg: any) {
     const queueSubmission = JSON.parse(msg.content.toString());
     const output = await runCode(queueSubmission);
     output['stdout'] = output['stdout'].trimEnd('\n')
-    console.log(output);
     const filter = { '_id': queueSubmission.submId };
     const update = { output: output };
     let subm = await SubmissionModel.findOneAndUpdate(filter, update, { new: true });
-    console.log(subm);
+    console.log('submission updated: ' + subm.toString());
+}
+
+async function fetchCode(codeId: string): Promise<string> {
+    return (await SubmissionModel.findById(codeId)).code;
 }
 
 async function runCode(qs: QueueSubmission): Promise<any> {
+    const code  = await fetchCode(qs.submId);
     switch (qs.langId) {
         case 1:
-            return await executor.runJsCode(qs.submId);
+            return await executor.runJsCode(code);
         case 2:
             return await executor.runPythonCode(qs.submId);
         default:
