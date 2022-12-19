@@ -7,7 +7,9 @@ def test_success_js():
         langId=1
     )
     stderr = output['output']['stdout']
-    print(f'output for code {code}:')
+    print('output for code')
+    print(code)
+    print('---------')
     print(stderr)
     # assert stdout == 'output:1\nsecond output'
 
@@ -20,7 +22,9 @@ def test_success_python():
         langId=2
     )
     stderr = output['output']['stdout']
-    print(f'output for code {code}:')
+    print('output for code')
+    print(code)
+    print('---------')
     print(stderr)
 
 if __name__ == '__main__':
