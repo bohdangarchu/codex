@@ -1,36 +1,27 @@
-import requests
-import time
-
-URL = 'http://localhost:7000/submissions'
+from api_wrapper import ApiWrapper
 
 def test_success_js():
-    sub = {
-        "code": "var x = 1; \n console.log('output:' + x); \n console.log('second output');",
-        "langId": 1
-    }
-    response = requests.post(URL, json=sub)
-    data = response.json()
-    id = data['submissionId']
-    time.sleep(5)
-    output = requests.get(f'{URL}/{id}')
-    stdout = output.json()[0]['output']['stdout']
-    print(stdout)
+    code = "var x = 1; \n console.log('output:' + x); \n console.log('second output');"
+    output = ApiWrapper().send_code(
+        code=code,
+        langId=1
+    )
+    stderr = output['output']['stdout']
+    print(f'output for code {code}:')
+    print(stderr)
     # assert stdout == 'output:1\nsecond output'
 
 
+
 def test_success_python():
-    sub = {
-        "code": "x = 1\ny = 2\nprint(f'output: {x+y}')",
-        "langId": 2
-    }
-    response = requests.post(URL, json=sub)
-    data = response.json()
-    id = data['submissionId']
-    time.sleep(5)
-    output = requests.get(f'{URL}/{id}')
-    stdout = output.json()[0]['output']['stdout']
-    # assert stdout == 'output: 3'
-    print(stdout)
+    code = "x = 1\ny = 2\nprint(f'output: {x+y}')"
+    output = ApiWrapper().send_code(
+        code=code,
+        langId=2
+    )
+    stderr = output['output']['stdout']
+    print(f'output for code {code}:')
+    print(stderr)
 
 if __name__ == '__main__':
-    test_success_python()
+    test_success_js()

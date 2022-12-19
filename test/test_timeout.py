@@ -1,20 +1,11 @@
-import requests
-import time
-
-URL = 'http://localhost:7000/submissions'
+from api_wrapper import ApiWrapper
 
 def send_js_code():
-    sub = {
-        "code": "while(true) { console.log('output'); }",
-        "langId": 1
-    }
-    response = requests.post(URL, json=sub)
-    data = response.json()
-    print(data)
-    id = data['submissionId']
-    time.sleep(11)
-    output = requests.get(f'{URL}/{id}')
-    stderr = output.json()[0]['output']['stderr']
+    output = ApiWrapper().send_code(
+        code="while(true) { console.log('output'); }",
+        langId=1
+    )
+    stderr = output['output']['stderr']
     print(stderr)
 
 if __name__ == '__main__':
