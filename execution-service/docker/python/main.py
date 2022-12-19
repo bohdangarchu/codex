@@ -1,5 +1,6 @@
 import subprocess
 import sys
+import json
 
 def write_code_to_file(code):
    file = open('./src/main.py', 'x')
@@ -17,9 +18,19 @@ if __name__ == '__main__':
     try:
         res = subprocess.run(
                 ['python', './src/main.py'], 
-                stdout=subprocess.PIPE, 
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 timeout=timeout
             )
-        print(res.stdout.decode('utf-8'))
+        output = {
+            "stdout": res.stdout.decode('utf-8'),
+            "stderr": res.stderr.decode('utf-8'),
+            "timeout": False
+        }
+        print(json.dumps(output))
     except subprocess.TimeoutExpired:
-        print(f'Timeout ({timeout}s)')
+        print(json.dumps({
+            "stdout": "",
+            "stderr": "",
+            "timeout": True
+        }))
