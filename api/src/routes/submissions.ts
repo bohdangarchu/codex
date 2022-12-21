@@ -1,7 +1,7 @@
 import express from 'express';
 import { Publisher } from '../services/Publisher';
+import { Submission, SubmissionModel } from '../models/Submission';
 export const router = express.Router();
-const SubmissionModel = require('../models/Submission').SubmissionModel;
 const publisher = new Publisher();
 publisher.init();
 
@@ -19,15 +19,14 @@ router.post('', async (req, res) => {
     validateRequest(req, res);
     const subm = new SubmissionModel(req.body);
     subm.save()
-        .then((s: any) => { 
-            console.log(`submission ${s} saved`);
+        .then(async (s: Submission) => { 
             publisher.processSubmission({
                 submId: s._id,
                 langId: s.langId
             });
-            res.send({
-                submissionId: s._id
-            });
+            // wait for db update
+            const result = await getUpdatedSubmission(s._id);
+            res.send(result);
         })
         .catch((err: any) => { 
             if (err.name === "ValidationError") {
@@ -50,4 +49,22 @@ function validateRequest (req: any, res: any) {
         });
     }
 }
+
+async function getUpdatedSubmission(id: string): Promise<Submission> {
+    await sleep(5);
+    let result = await SubmissionModel.findById(id);
+    while(true) {
+        if (result.status === 'Finished') {
+            return result;
+        }
+        sleep(1);
+        result = await SubmissionModel.findById(id);
+    }
+}
+
+function sleep(s: number) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, s*1000);
+    });
+  }
 

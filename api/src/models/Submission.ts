@@ -2,6 +2,19 @@ import mongoose from 'mongoose';
 import { LanguageList } from '../config/Languages'
 import { ListCollectionsCursor } from 'mongodb';
 
+export interface Submission {
+    _id: string,
+    code: string,
+    langId: number,
+    status: string,
+    args: [string],
+    output: {
+        stdout: string,
+        stderr: string,
+        timeout: boolean
+    }
+}
+
 const SubmissionSchema = new mongoose.Schema({
     code: {
         type: String,
@@ -38,4 +51,4 @@ function validateLangId(id: number) {
     return LanguageList.map(lang => lang['id']).includes(id);
 }
 
-export const SubmissionModel = mongoose.model("Submission", SubmissionSchema);
+export const SubmissionModel = mongoose.model<Submission>("Submission", SubmissionSchema);

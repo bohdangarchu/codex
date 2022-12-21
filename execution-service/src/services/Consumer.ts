@@ -25,10 +25,10 @@ async function connect() {
 }
 
 async function consumeJob(msg: any) {
-    console.log(" [x] Received %s", msg.content.toString());
+    console.log(" [x] Received job %s", msg.content.toString());
     const queueSubmission = JSON.parse(msg.content.toString());
     const output = await runCode(queueSubmission);
-    console.log("-----------------output" + JSON.stringify(output));
+    console.log("output from docker container: " + JSON.stringify(output));
 
     const filter = { '_id': queueSubmission.submId };
     const update = { 
@@ -36,7 +36,7 @@ async function consumeJob(msg: any) {
         status: "Finished"
     };
     let subm = await SubmissionModel.findOneAndUpdate(filter, update, { new: true });
-    console.log('submission updated: ' + subm.toString());
+    // console.log('submission updated: ' + subm.toString());
 }
 
 async function runCode(qs: QueueSubmission): Promise<Output> {
