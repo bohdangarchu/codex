@@ -1,27 +1,34 @@
 import fs from 'fs';
 import { promisify } from 'util';
 import child_process from 'child_process';
+import { json } from 'stream/consumers';
 const exec = promisify(child_process.exec);
 const PATH = './docker/userCode.js';
 
+export interface Output {
+    stdout: string,
+    stderr: string,
+    timeout: boolean
+}
+
 export class Executor {
-    async runJsCode(codeId: string) : Promise<any> {
-        const script = `docker run --rm js-code-runner ${codeId}`
-        return await exec(script);
+
+    async runCode(code: string, langId: number): Promise<Output> {
+        const runner = this.getRunner(langId);
+        const script = `docker run --rm --net none ${runner} "${code}"`
+        console.log('executing ' + script);
+        const output = await exec(script);
+        // output object is always in stdout
+        return JSON.parse(output.stdout);
     }
 
-    async runPythonCode(codeId: string) : Promise<any> {
-        const script = `docker run --rm python-code-runner ${codeId}`
-        return await exec(script);
-    }
-
-    // not used
-    writeToFile(path: string, content: string) {
-        fs.writeFile(path, content, err => {
-            if (err) {
-                console.error('error: ' + err);
-            }
-        });
+    getRunner(langId: number): string {
+        switch (langId) {
+            case 1:
+                return 'js-code-runner';
+            case 2:
+                return 'python-code-runner';
+        }
     }
 
 }

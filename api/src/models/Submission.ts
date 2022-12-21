@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { LanguageList } from '../config/Languages'
+import { ListCollectionsCursor } from 'mongodb';
 
 const SubmissionSchema = new mongoose.Schema({
     code: {
@@ -9,14 +10,24 @@ const SubmissionSchema = new mongoose.Schema({
     langId: {
         type: Number,
         required: true,
-        validate: (value: number) => {
-            return validateLangId(value);
-        }
+        validate: validateLangId
+    },
+    status: {
+        type: String,
+        default: "Running"
+    },
+    args: {
+        type: [String],
+        default: []
     },
     output: {
         type: {
             stdout: String,
-            stderr: String
+            stderr: String,
+            timeout: {
+                type: Boolean,
+                default: false
+            }
         }
     }
 });

@@ -1,6 +1,6 @@
 import amqp from "amqplib";
 import { SubmissionModel } from "../models/Submission";
-import { Executor } from "./Executor";
+import { Executor, Output } from "./Executor";
 import { db } from '../config/DbSetup';
 const PORT = 5672
 const executor = new Executor()
@@ -28,26 +28,25 @@ async function consumeJob(msg: any) {
     console.log(" [x] Received %s", msg.content.toString());
     const queueSubmission = JSON.parse(msg.content.toString());
     const output = await runCode(queueSubmission);
-    output['stdout'] = output['stdout'].trimEnd('\n')
-    console.log(output);
+    console.log("-----------------output" + JSON.stringify(output));
+
     const filter = { '_id': queueSubmission.submId };
-    const update = { output: output };
+    const update = { 
+        output: output,
+        status: "Finished"
+    };
     let subm = await SubmissionModel.findOneAndUpdate(filter, update, { new: true });
-    console.log(subm);
+    console.log('submission updated: ' + subm.toString());
 }
 
-async function runCode(qs: QueueSubmission): Promise<any> {
-    switch (qs.langId) {
-        case 1:
-            return await executor.runJsCode(qs.submId);
-        case 2:
-            return await executor.runPythonCode(qs.submId);
-        default:
-            return {
-                stdout: "",
-                stderr: "Languge not found!"
-            }
-    }
+async function runCode(qs: QueueSubmission): Promise<Output> {
+    // TODO trim last \n ofstdout and stderr
+    const code  = await fetchCode(qs.submId);
+    return await executor.runCode(code, qs.langId);
+}
+
+async function fetchCode(codeId: string): Promise<string> {
+    return (await SubmissionModel.findById(codeId)).code;
 }
 
 db.connect();

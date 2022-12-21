@@ -9,18 +9,27 @@ const SubmissionSchema = new mongoose.Schema({
     langId: {
         type: Number,
         required: true,
-        validate: (value: number) => {
-            return validateLangId(value);
-        }
+        validate: validateLangId
+    },
+    status: {
+        type: String,
+        default: "Running"
+    },
+    args: {
+        type: [String],
+        default: []
     },
     output: {
         type: {
             stdout: String,
-            stderr: String
+            stderr: String,
+            timeout: {
+                type: Boolean,
+                default: false
+            }
         }
     }
 });
-
 
 function validateLangId(id: number) {
     return LanguageList.map(lang => lang['id']).includes(id);

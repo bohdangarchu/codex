@@ -17,7 +17,7 @@ async function run() {
     console.time('docker-run');
     const codeId = '63619ee6546b4cfab2945b93'
     const ex = new Executor();
-    const out = await ex.runCode(codeId);
+    const out = await ex.runJsCode(codeId);
     console.log(out);
     console.timeEnd('docker-run');
 }
