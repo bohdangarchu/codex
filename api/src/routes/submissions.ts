@@ -51,20 +51,20 @@ function validateRequest (req: any, res: any) {
 }
 
 async function getUpdatedSubmission(id: string): Promise<Submission> {
-    await sleep(5);
+    await sleep(1000);
     let result = await SubmissionModel.findById(id);
     while(true) {
         if (result.status === 'Finished') {
             return result;
         }
-        sleep(1);
+        sleep(500);
         result = await SubmissionModel.findById(id);
     }
 }
 
-function sleep(s: number) {
+function sleep(ms: number) {
     return new Promise((resolve) => {
-      setTimeout(resolve, s*1000);
+        setTimeout(resolve, ms);
     });
   }
 
