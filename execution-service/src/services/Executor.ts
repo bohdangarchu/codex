@@ -15,7 +15,8 @@ export class Executor {
 
     async runCode(code: string, langId: number): Promise<Output> {
         const runner = this.getRunner(langId);
-        const script = `docker run --rm ${runner} "${code}"`
+        const script = `docker run --rm --net none ${runner} "${code}"`
+        console.log('executing ' + script);
         const output = await exec(script);
         // output object is always in stdout
         return JSON.parse(output.stdout);

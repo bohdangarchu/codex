@@ -6,11 +6,11 @@ def test_success_js():
         code=code,
         langId=1
     )
-    stderr = output['output']['stdout']
+    stdout = output['output']['stdout']
     print('output for code')
     print(code)
     print('---------')
-    print(stderr)
+    print(stdout)
     # assert stdout == 'output:1\nsecond output'
 
 
@@ -21,11 +21,11 @@ def test_success_python():
         code=code,
         langId=2
     )
-    stderr = output['output']['stdout']
+    stdout = output['output']['stdout']
     print('output for code')
     print(code)
     print('---------')
-    print(stderr)
+    print(stdout)
 
 if __name__ == '__main__':
-    test_success_js()
+    test_success_python()
