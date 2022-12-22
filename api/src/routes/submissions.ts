@@ -57,7 +57,7 @@ async function getUpdatedSubmission(id: string): Promise<Submission> {
         if (result.status === 'Finished') {
             return result;
         }
-        sleep(500);
+        await sleep(500);
         result = await SubmissionModel.findById(id);
     }
 }
