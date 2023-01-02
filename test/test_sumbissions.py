@@ -27,5 +27,14 @@ def test_success_python():
     print('---------')
     print(stdout)
 
+def test_success_java():
+    code = '''
+class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello");
+    }
+}
+    '''
+
 if __name__ == '__main__':
     test_success_python()

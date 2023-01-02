@@ -1,9 +1,10 @@
 import subprocess
 import sys
 import json
+import os
 
 def write_code_to_file(code):
-   file = open('Main.java', 'x')
+   file = open('./src/Main.java', 'x')
    file.write(code)
    file.close()
 
@@ -16,6 +17,7 @@ if __name__ == '__main__':
     write_code_to_file(code)
     timeout = 10
     try:
+        os.chdir('./src')
         res = subprocess.run(
                 ['javac', 'Main.java'], 
                 stdout=subprocess.PIPE, 
