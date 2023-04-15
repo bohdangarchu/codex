@@ -36,13 +36,25 @@ To execute code in any of these languages, send a POST request to the `/submissi
 
 ```bash
 curl -H 'Content-Type: application/json' \
--d '{ "code": "<your code>", "langId": <langId>}' \
+-d '{ "code": "<your code>", "langId": <langId>' \
 -X POST http://localhost:7000/submissions
 ```
 
+The response looks like this:
+
+```json
+{
+    "stdout": "<your output>",
+    "stderr": "<errors>",
+    "timeout": false
+}
+```
+
+Default timeout is 10s. Custom timeout will be added in the future.
+
 You can see the available programming languages and the corresponding `langId`s in the `static/languages.json` file.
 
-For example:
+Request examples:
 
 ```bash
 curl -H 'Content-Type: application/json' \
@@ -50,6 +62,16 @@ curl -H 'Content-Type: application/json' \
       -X POST \
       http://localhost:7000/submissions
 ```
+
+Response:
+```json
+{
+    "stdout": "9",
+    "stderr": "",
+    "timeout": false
+}
+```
+
 
 
 
