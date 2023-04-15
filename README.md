@@ -1,6 +1,6 @@
 # Code Execution API
 
-Code Execution API is a RESTful API that allows users to execute code in various programming languages. It supports popular languages such as Python, JavaScript, Ruby, and many more. This API is built using Node.js and Express.js.
+Code Execution API is a RESTful API that allows users to execute code in various programming languages. It currently supports Python, JavaScript and Java. This API is built using Node.js and Express.js and uses Docker containers as runtime environment.
 
 ## Prerequisites
 
