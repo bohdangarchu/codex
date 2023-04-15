@@ -22,12 +22,14 @@ export class Executor {
         return JSON.parse(output.stdout);
     }
 
-    getRunner(langId: number): string {
+    getRunner(langId: number): string | null {
         switch (langId) {
             case 1:
                 return 'js-code-runner';
             case 2:
                 return 'python-code-runner';
+            case 3:
+                return 'java-code-runner';
         }
     }
 
