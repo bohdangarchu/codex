@@ -1,16 +1,16 @@
 # CodeX
 
-CodeX is a RESTful API that allows users to execute code in various programming languages. It currently supports Python, JavaScript and Java. This API is built using Node.js and Express.js and uses Docker containers as sandbox environment.
+CodeX is a remote code execution system. It currently supports submissions in Python, JavaScript and Java. The REST API is built using Node.js and Express.js and uses Docker containers as sandbox environment.
 
 ## Architecture
 
 CodeX uses a microservices architecture to handle requests and execute code. The application is composed of the following services:
 
-- **API Service**: This service is responsible for handling incoming HTTP requests and responding with the appropriate data. It is built using Node.js and Express.js. After receiving a request with a submission, the service stores it in the database and pushes it to the submissions queue.
+- **API Service**: This service is responsible for handling incoming HTTP requests and responding with the appropriate data. It is built using Node.js and Express.js. After receiving a request with a submission, the service stores it in the database and pushes it to the task queue.
 
-- **Execution Service**: This service is responsible for executing submitted code. It is built using Node.js and uses Docker containers as a sandboxed environment. The service waits for incomming submissions in the Queue.
+- **Execution Service**: This service is responsible for executing submitted code. It is built using Node.js and uses Docker containers as a sandbox environment. The service waits for incomming submissions in the Task Queue.
 
-CodeX leverages Docker containers as the runtime environment for the Execution Service. This approach provides a number of benefits, including improved isolation and reproducibility.
+CodeX leverages Docker as a sandbox environment for code submissions because it provides a secure and isolated environment for executing user code. When a user submits code to CodeX, it is executed within a Docker container, which has its own file system, network stack, and resource limits. This ensures that any malicious or poorly written code submitted by users cannot harm the host system. In addition, using Docker also provides portability and scalability to the service, as it allows the application to be run on any machine that has Docker installed.
 
 RabbitMQ is used as the message broker between the API Service and the Execution Service. This allows for a decoupled architecture where the API Service can send messages to the Execution Service without having to know anything about its implementation details.
 
@@ -38,6 +38,11 @@ Once the setup is complete, you can start the API server by running the followin
 
 The API will be available at `http://localhost:7000` by default, but you can customize the port by setting the `PORT` environment variable in the `api/.env` file.
 
+## API Endpoints
+
+- `POST /submissions`: submits code for execution. Returns a submission object with id and output.
+- `GET /submissions/:submissionId`: retrieves the result of a specific submission.
+
 ## Usage
 
 The API currently supports execution of code in the following languages:
@@ -58,6 +63,7 @@ The response looks like this:
 
 ```json
 {
+    "_id": "<submission id>",
     "stdout": "<your output>",
     "stderr": "<errors>",
     "timeout": false
@@ -80,6 +86,7 @@ curl -H 'Content-Type: application/json' \
 Response:
 ```json
 {
+    "_id": "63619ee6546b4cfab2945b93",
     "stdout": "9\n",
     "stderr": "",
     "timeout": false
