@@ -18,10 +18,10 @@ MongoDB is used as the database for CodeX. This provides a scalable and reliable
 
 ## Prerequisites
 
-Before getting started, you will need to have Docker installed on your machine. You can download Docker from the official website: https://www.docker.com/get-started
+Before getting started, you will need to have Docker and Node.js installed on your machine.
 
 ## Getting Started
-To get started, clone this repository to your local machine and run the setup script. This will build the Docker containers and start the RabbitMQ and MongoDB instances:
+To get started, clone this repository to your local machine and run the setup script. This will install npm packages, build Docker containers needed for code execution and start the RabbitMQ and MongoDB instances:
 
 ```bash
 git clone https://github.com/bohdangarchu/codex.git
@@ -29,7 +29,7 @@ cd codex
 ./setup.sh
 ```
 
-Once the setup is complete, you can start the API server by running the following command:
+Once the setup is complete, you can start the service by running the following command:
 
 ```bash
 ./run.sh
