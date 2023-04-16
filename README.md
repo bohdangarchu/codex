@@ -41,7 +41,7 @@ The API will be available at `http://localhost:7000` by default, but you can cus
 ## API Endpoints
 
 - `POST /submissions`: submits code for execution. Returns a submission object with id and output.
-- `GET /submissions/:submissionId`: retrieves the result of a specific submission.
+- `GET /submissions/{submissionId}`: retrieves the result of a specific submission.
 
 ## Usage
 
