@@ -1,4 +1,6 @@
 #!/bin/bash
+(cd ./api && npm install && cd ..)
+(cd ./execution-service && npm install && cd ..)
 docker build --tag js-code-runner ./execution-service/docker/js
 docker build --tag python-code-runner ./execution-service/docker/python
 docker build --tag java-code-runner ./execution-service/docker/java
