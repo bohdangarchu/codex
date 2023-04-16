@@ -1,6 +1,20 @@
-# Code Execution API
+# CodeX
 
-Code Execution API is a RESTful API that allows users to execute code in various programming languages. It currently supports Python, JavaScript and Java. This API is built using Node.js and Express.js and uses Docker containers as runtime environment.
+CodeX is a RESTful API that allows users to execute code in various programming languages. It currently supports Python, JavaScript and Java. This API is built using Node.js and Express.js and uses Docker containers as sandbox environment.
+
+## Architecture
+
+CodeX uses a microservices architecture to handle requests and execute code. The application is composed of the following services:
+
+- **API Service**: This service is responsible for handling incoming HTTP requests and responding with the appropriate data. It is built using Node.js and Express.js. After receiving a request with a submission, the service stores it in the database and pushes it to the submissions queue.
+
+- **Execution Service**: This service is responsible for executing submitted code. It is built using Node.js and uses Docker containers as a sandboxed environment. The service waits for incomming submissions in the Queue.
+
+CodeX leverages Docker containers as the runtime environment for the Execution Service. This approach provides a number of benefits, including improved isolation and reproducibility.
+
+RabbitMQ is used as the message broker between the API Service and the Execution Service. This allows for a decoupled architecture where the API Service can send messages to the Execution Service without having to know anything about its implementation details.
+
+MongoDB is used as the database for CodeX. This provides a scalable and reliable way to store and retrieve data related to executed code.
 
 ## Prerequisites
 
@@ -66,7 +80,7 @@ curl -H 'Content-Type: application/json' \
 Response:
 ```json
 {
-    "stdout": "9",
+    "stdout": "9\n",
     "stderr": "",
     "timeout": false
 }
