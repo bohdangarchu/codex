@@ -1,6 +1,6 @@
 # CodeX
 
-CodeX is a remote code execution system. It currently supports submissions in Python, JavaScript and Java. The REST API is built using Node.js and Express.js and uses Docker containers as sandbox environment.
+CodeX is a remote code execution system. It runs code submissions in a secure envoronment and returns the output. The system currently supports submissions in Python, JavaScript and Java. The REST API is built using Node.js and Express.js and uses Docker containers as sandbox environment.
 
 ## Architecture
 
