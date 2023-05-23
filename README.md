@@ -3,9 +3,9 @@
 CodeX is a remote code execution system. It runs code submissions in a secure envoronment and returns the output. The system currently supports submissions in Python, JavaScript and Java. The REST API is built using `Node.js` and `Express.js`.
 
 
-CodeX leverages `Docker` as a sandbox environment for code submissions because it provides a secure and isolated environment for executing untrusted code. In addition, using Docker also provides portability and scalability to the service, as it allows the application to be run on any machine that has Docker installed.
+CodeX leverages `Docker` as a sandbox environment for code submissions because it provides a secure and isolated environment for executing untrusted code.
 
-`RabbitMQ` is used as the message broker between the API Service and the Execution Service. This allows for a decoupled architecture where the API Service can send messages to the Execution Service without having to know anything about its implementation details.
+`RabbitMQ` is used as a message broker between the API Service and the Execution Service.
 
 ## Prerequisites
 
