@@ -1,20 +1,11 @@
 # CodeX
 
-CodeX is a remote code execution system. It runs code submissions in a secure envoronment and returns the output. The system currently supports submissions in Python, JavaScript and Java. The REST API is built using Node.js and Express.js and uses Docker containers as sandbox environment.
+CodeX is a remote code execution system. It runs code submissions in a secure envoronment and returns the output. The system currently supports submissions in Python, JavaScript and Java. The REST API is built using `Node.js` and `Express.js`.
 
-## Architecture
 
-CodeX uses a microservices architecture to handle requests and execute code. The application is composed of the following services:
+CodeX leverages `Docker` as a sandbox environment for code submissions because it provides a secure and isolated environment for executing untrusted code. In addition, using Docker also provides portability and scalability to the service, as it allows the application to be run on any machine that has Docker installed.
 
-- **API Service**: This service is responsible for handling incoming HTTP requests and responding with the appropriate data. It is built using Node.js and Express.js. After receiving a request with a submission, the service stores it in the database and pushes it to the task queue.
-
-- **Execution Service**: This service is responsible for executing submitted code. It is built using Node.js and uses Docker containers as a sandbox environment. The service waits for incomming submissions in the Task Queue.
-
-CodeX leverages Docker as a sandbox environment for code submissions because it provides a secure and isolated environment for executing user code. When a user submits code to CodeX, it is executed within a Docker container, which has its own file system, network stack, and resource limits. This ensures that any malicious or poorly written code submitted by users cannot harm the host system. In addition, using Docker also provides portability and scalability to the service, as it allows the application to be run on any machine that has Docker installed.
-
-RabbitMQ is used as the message broker between the API Service and the Execution Service. This allows for a decoupled architecture where the API Service can send messages to the Execution Service without having to know anything about its implementation details.
-
-MongoDB is used as the database for CodeX. This provides a scalable and reliable way to store and retrieve data related to executed code.
+`RabbitMQ` is used as the message broker between the API Service and the Execution Service. This allows for a decoupled architecture where the API Service can send messages to the Execution Service without having to know anything about its implementation details.
 
 ## Prerequisites
 
